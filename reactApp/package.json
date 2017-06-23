@@ -1,0 +1,32 @@
+{
+  "name": "reactapp",
+  "version": "1.0.0",
+  "description": "To create small app for learning",
+  "main": "js/main.js",
+  "scripts": {
+    "start": "webpack-dev-server --hot"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dollysingh3192/Roll-over-popup_react.git"
+  },
+  "keywords": [
+    "React"
+  ],
+  "author": "Dolly Singh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dollysingh3192/Roll-over-popup_react/issues"
+  },
+  "homepage": "https://github.com/dollysingh3192/Roll-over-popup_react#readme",
+  "dependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.5.0"
+  }
+}
