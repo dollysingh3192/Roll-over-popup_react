@@ -1,81 +1,358 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+
+var test = 0;
 class App extends React.Component {
-  constructor(props) {
-    super(props);
+      constructor(props) {
+            super(props);
 
-    this.state = {
-      slideIndex: 0
-    };
+            this.state = {
+                  slideIndex: 0
+            };
 
-     this.plusDivs = this.plusDivs.bind(this);
-  }
+            this.plusDivs = this.plusDivs.bind(this);
+            this.handleClick = this.handleClick.bind(this);
+      }
 
-  // componentDidUpdate(prevState) {
-  //    var tomovedivwidth = ReactDOM.findDOMNode(this.refs.mySlides.offsetWidth);
-  // }
+      // componentDidUpdate(prevState) {
+      //    var tomovedivwidth = ReactDOM.findDOMNode(this.refs.mySlides.offsetWidth);
+      // }
 
-  plusDivs(n) {
-    this.setState({
-      //tomovedivwidth :this.mySlides.offsetWidth,
-      slideIndex: this.state.slideIndex + n
-    });
-    this.showDivs(this.state.slideIndex);
-  }
-  showDivs(n) {
-    //console.log(n);
-    var tomovedivwidth  =  ReactDOM.findDOMNode(this.refs.mySlides).offsetWidth
-    var tomove = tomovedivwidth * n;
-    console.log(tomove);
-    var tabs = this.refs.Tabs;
-  }
-  render() {
-    return (
-      <div>
-        <div className="main">
-          <button id="before" onClick={() => this.plusDivs(-1)}>
-            &#10094;
+      handleClick(e) {
+      //   console.log(e.currentTarget);
+        var currentli = e.currentTarget.id;
+        var dataList = document.getElementById("data").children;
+      }
+
+      componentDidMount() {
+            var beforebutton = this.refs.beforebutton
+            beforebutton.disabled = true;
+      }
+
+      plusDivs(n) {
+            var slideIndex = this.state.slideIndex + n;
+            this.setState({
+                  //tomovedivwidth :this.mySlides.offsetWidth,
+                  slideIndex: slideIndex
+            });
+            test = 10;
+            this.showDivs(slideIndex);
+      }
+      showDivs(n) {
+            //console.log(n);
+            var tomovedivwidth = ReactDOM.findDOMNode(this.refs.mySlides).offsetWidth
+            var tomove = tomovedivwidth * n;
+            console.log(tomove);
+
+            var beforebutton = this.refs.beforebutton;
+            if (tomove == 0) {
+                  beforebutton.disabled = true;
+            } else {
+                  beforebutton.disabled = false;
+            }
+            var tabs = this.refs.Tabs;
+            var header = this.refs.header;
+            tabs.style.left = -tomove + 'px';
+
+            var headerwidth = header.clientWidth;
+            var tabswidth = tabs.clientWidth;
+            var remain = tabswidth - headerwidth;
+
+            var afterbutton = this.refs.afterbutton;
+            var disableright = parseInt(tomove);
+            var compare = parseInt(remain);
+            if (Math.floor(disableright) == (Math.floor(compare))) {
+                  afterbutton.disabled = true;
+            } else {
+                  afterbutton.disabled = false;
+            }
+      }
+      render() {
+
+
+            return (
+                  <div>
+                        <div className="main">
+                              <button id="before" ref="beforebutton" onClick={() => this.plusDivs(-1)}>
+                                    &#10094;
           </button>
-          <div className="header">
-            <div id="Tabs"  ref="Tabs">
-              <ul className="clearfix">
-                {/*<li className="mySlides" ref={(li) => { this.mySlides = li; }} id="Tab1"><a href="#">Tab 1</a></li>*/}
-                <li className="mySlides" ref="mySlides" id="Tab1">
-                  <a href="#">Tab 1</a>
-                </li>
-                <li className="mySlides" ref="mySlides" id="Tab2">
-                  <a href="#">Tab 2</a>
-                </li>
-                <li className="mySlides" ref="mySlides" id="Tab3">
-                  <a href="#">Tab 3</a>
-                </li>
-                <li className="mySlides" ref="mySlides" id="Tab4">
-                  <a href="#">Tab 4</a>
-                </li>
-                <li className="mySlides" ref="mySlides" id="Tab5">
-                  <a href="#">Tab 5</a>
-                </li>
-                <li className="mySlides" ref="mySlides" id="Tab6">
-                  <a href="#">Tab 6</a>
-                </li>
-                <li className="mySlides" ref="mySlides" id="Tab7">
-                  <a href="#">Tab 7</a>
-                </li>
-                <li className="mySlides" ref="mySlides" id="Tab8">
-                  <a href="#">Tab 8</a>
-                </li>
-                <li className="mySlides" ref="mySlides" id="Tab9">
-                  <a href="#">Tab 9</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <button id="after" onClick={() => this.plusDivs(1)}>&#10095;</button>
-        </div>
-      </div>
-    );
-  }
+                              <div className="header" ref="header">
+                                    <div id="Tabs" ref="Tabs" >
+                                          <ul className="clearfix">
+                                                {/*<li className="mySlides" ref={(li) => { this.mySlides = li; }} id="Tab1"><a href="#">Tab 1</a></li>*/}
+                                                <li className="mySlides" ref="mySlides" id="Tab1" onClick={(e) =>this.handleClick(e)}>
+                                                      <a href="#">Tab 1</a>
+                                                </li>
+                                                <li className="mySlides" ref="mySlides" id="Tab2" onClick={(e) =>this.handleClick(e)}>
+                                                      <a href="#">Tab 2</a>
+                                                </li>
+                                                <li className="mySlides" ref="mySlides" id="Tab3" onClick={(e) =>this.handleClick(e)}>
+                                                      <a href="#">Tab 3</a>
+                                                </li>
+                                                <li className="mySlides" ref="mySlides" id="Tab4" onClick={(e) =>this.handleClick(e)}>
+                                                      <a href="#">Tab 4</a>
+                                                </li>
+                                                <li className="mySlides" ref="mySlides" id="Tab5" onClick={(e) =>this.handleClick(e)}>
+                                                      <a href="#">Tab 5</a>
+                                                </li>
+                                                <li className="mySlides" ref="mySlides" id="Tab6" onClick={(e) =>this.handleClick(e)}>
+                                                      <a href="#">Tab 6</a>
+                                                </li>
+                                                <li className="mySlides" ref="mySlides" id="Tab7" onClick={(e) =>this.handleClick(e)}>
+                                                      <a href="#">Tab 7</a>
+                                                </li>
+                                                <li className="mySlides" ref="mySlides" id="Tab8" onClick={(e) =>this.handleClick(e)}>
+                                                      <a href="#">Tab 8</a>
+                                                </li>
+                                                <li className="mySlides" ref="mySlides" id="Tab9" onClick={(e) =>this.handleClick(e)}>
+                                                      <a href="#">Tab 9</a>
+                                                </li>
+                                          </ul>
+                                    </div>
+                              </div>
+                              <button id="after" ref="afterbutton" onClick={() => this.plusDivs(1)}>&#10095;</button>
+                              <div id="data">
+                              <div id="Div_Tab1" >
+                                    <div>Dolly</div>
+                                    <div>Home</div>
+                                    <div>Cat</div>
+                                    <div>Elephant</div>
+                                    <div>Coat</div>
+                                    <div>Home</div>
+                                    <div>Building</div>
+                                    <div>Elephant</div>
+                                    <div>1</div>
+                                    <div>Home</div>
+                                    <div>Bottle</div>
+                                    <div>Elephant</div>
+                                    <div>1</div>
+                                    <div>Home</div>
+                                    <div>Cup</div>
+                                    <div>Elephant</div>
+                                    <div>Toy</div>
+                                    <div>Home</div>
+                                    <div>Cat</div>
+                                    <div>Elephant</div>
+                                    <div>Teddy</div>
+                                    <div>Mobile</div>
+                                    <div>Cat</div>
+                                    <div>Ant</div>
+                              </div>
+                              <div id="Div_Tab2">
+                                    <div>Gudal</div>
+                                    <div>Home</div>
+                                    <div>Cat</div>
+                                    <div>Elephant</div>
+                                    <div>Coat</div>
+                                    <div>Home</div>
+                                    <div>Building</div>
+                                    <div>Elephant</div>
+                                    <div>1</div>
+                                    <div>Home</div>
+                                    <div>Bottle</div>
+                                    <div>Elephant</div>
+                                    <div>1</div>
+                                    <div>Home</div>
+                                    <div>Cup</div>
+                                    <div>Elephant</div>
+                                    <div>Toy</div>
+                                    <div>Home</div>
+                                    <div>Cat</div>
+                                    <div>Elephant</div>
+                                    <div>Teddy</div>
+                                    <div>Mobile</div>
+                                    <div>Cat</div>
+                                    <div>Ant</div>
+                              </div>
+                              <div id="Div_Tab3">
+                                    <div>Chandu</div>
+                                    <div>Home</div>
+                                    <div>Cat</div>
+                                    <div>Elephant</div>
+                                    <div>Coat</div>
+                                    <div>Home</div>
+                                    <div>Building</div>
+                                    <div>Elephant</div>
+                                    <div>1</div>
+                                    <div>Home</div>
+                                    <div>Bottle</div>
+                                    <div>Elephant</div>
+                                    <div>1</div>
+                                    <div>Home</div>
+                                    <div>Cup</div>
+                                    <div>Elephant</div>
+                                    <div>Toy</div>
+                                    <div>Home</div>
+                                    <div>Cat</div>
+                                    <div>Elephant</div>
+                                    <div>Teddy</div>
+                                    <div>Mobile</div>
+                                    <div>Cat</div>
+                                    <div>Ant</div>
+                              </div>
+                              <div id="Div_Tab4">
+                                    <div>Papa</div>
+                                    <div>Home</div>
+                                    <div>Cat</div>
+                                    <div>Elephant</div>
+                                    <div>Coat</div>
+                                    <div>Home</div>
+                                    <div>Building</div>
+                                    <div>Elephant</div>
+                                    <div>1</div>
+                                    <div>Home</div>
+                                    <div>Bottle</div>
+                                    <div>Elephant</div>
+                                    <div>1</div>
+                                    <div>Home</div>
+                                    <div>Cup</div>
+                                    <div>Elephant</div>
+                                    <div>Toy</div>
+                                    <div>Home</div>
+                                    <div>Cat</div>
+                                    <div>Elephant</div>
+                                    <div>Teddy</div>
+                                    <div>Mobile</div>
+                                    <div>Cat</div>
+                                    <div>Ant</div>
+                              </div>
+                              <div id="Div_Tab5">
+                                    <div>Mommy</div>
+                                    <div>Home</div>
+                                    <div>Cat</div>
+                                    <div>Elephant</div>
+                                    <div>Coat</div>
+                                    <div>Home</div>
+                                    <div>Building</div>
+                                    <div>Elephant</div>
+                                    <div>1</div>
+                                    <div>Home</div>
+                                    <div>Bottle</div>
+                                    <div>Elephant</div>
+                                    <div>1</div>
+                                    <div>Home</div>
+                                    <div>Cup</div>
+                                    <div>Elephant</div>
+                                    <div>Toy</div>
+                                    <div>Home</div>
+                                    <div>Cat</div>
+                                    <div>Elephant</div>
+                                    <div>Teddy</div>
+                                    <div>Mobile</div>
+                                    <div>Cat</div>
+                                    <div>Ant</div>
+                              </div>
+                              <div id="Div_Tab6">
+                                    <div>Minions</div>
+                                    <div>Home</div>
+                                    <div>Cat</div>
+                                    <div>Elephant</div>
+                                    <div>Coat</div>
+                                    <div>Home</div>
+                                    <div>Building</div>
+                                    <div>Elephant</div>
+                                    <div>1</div>
+                                    <div>Home</div>
+                                    <div>Bottle</div>
+                                    <div>Elephant</div>
+                                    <div>1</div>
+                                    <div>Home</div>
+                                    <div>Cup</div>
+                                    <div>Elephant</div>
+                                    <div>Toy</div>
+                                    <div>Home</div>
+                                    <div>Cat</div>
+                                    <div>Elephant</div>
+                                    <div>Teddy</div>
+                                    <div>Mobile</div>
+                                    <div>Cat</div>
+                                    <div>Ant</div>
+                              </div>
+                              <div id="Div_Tab7">
+                                    <div>Home</div>
+                                    <div>Home</div>
+                                    <div>Cat</div>
+                                    <div>Elephant</div>
+                                    <div>Coat</div>
+                                    <div>Home</div>
+                                    <div>Building</div>
+                                    <div>Elephant</div>
+                                    <div>1</div>
+                                    <div>Home</div>
+                                    <div>Bottle</div>
+                                    <div>Elephant</div>
+                                    <div>1</div>
+                                    <div>Home</div>
+                                    <div>Cup</div>
+                                    <div>Elephant</div>
+                                    <div>Toy</div>
+                                    <div>Home</div>
+                                    <div>Cat</div>
+                                    <div>Elephant</div>
+                                    <div>Teddy</div>
+                                    <div>Mobile</div>
+                                    <div>Cat</div>
+                                    <div>Ant</div>
+                              </div>
+                              <div id="Div_Tab8">
+                                    <div>BUNDI</div>
+                                    <div>Home</div>
+                                    <div>Cat</div>
+                                    <div>Elephant</div>
+                                    <div>Coat</div>
+                                    <div>Home</div>
+                                    <div>Building</div>
+                                    <div>Elephant</div>
+                                    <div>1</div>
+                                    <div>Home</div>
+                                    <div>Bottle</div>
+                                    <div>Elephant</div>
+                                    <div>1</div>
+                                    <div>Home</div>
+                                    <div>Cup</div>
+                                    <div>Elephant</div>
+                                    <div>Toy</div>
+                                    <div>Home</div>
+                                    <div>Cat</div>
+                                    <div>Elephant</div>
+                                    <div>Teddy</div>
+                                    <div>Mobile</div>
+                                    <div>Cat</div>
+                                    <div>Ant</div>
+                              </div>
+                              <div id="Div_Tab9">
+                                    <div>Gurgaon</div>
+                                    <div>Home</div>
+                                    <div>Cat</div>
+                                    <div>Elephant</div>
+                                    <div>Coat</div>
+                                    <div>Home</div>
+                                    <div>Building</div>
+                                    <div>Elephant</div>
+                                    <div>1</div>
+                                    <div>Home</div>
+                                    <div>Bottle</div>
+                                    <div>Elephant</div>
+                                    <div>1</div>
+                                    <div>Home</div>
+                                    <div>Cup</div>
+                                    <div>Elephant</div>
+                                    <div>Toy</div>
+                                    <div>Home</div>
+                                    <div>Cat</div>
+                                    <div>Elephant</div>
+                                    <div>Teddy</div>
+                                    <div>Mobile</div>
+                                    <div>Cat</div>
+                                    <div>Ant</div>
+                              </div>
+                              </div>
+                              <div id="popup"></div>
+                        </div>
+                  </div>
+            );
+      }
 }
 
 export default App;
