@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 
-var test = 0;
+// var test = 0;
 class App extends React.Component {
       constructor(props) {
             super(props);
@@ -32,8 +32,6 @@ class App extends React.Component {
             });
       }
 
-   
-
       componentDidMount() {
             var beforebutton = this.refs.beforebutton
             beforebutton.disabled = true;
@@ -45,7 +43,7 @@ class App extends React.Component {
                   //tomovedivwidth :this.mySlides.offsetWidth,
                   slideIndex: slideIndex
             });
-            test = 10;
+            // test = 10;
             this.showDivs(slideIndex);
       }
       showDivs(n) {
@@ -78,11 +76,8 @@ class App extends React.Component {
             }
       }
 
-      test(name){
-           
-
-           this.refs.name.style.display = 'block';
-           
+      test(name) {
+            //      this.refs.name.style.display = 'block';
       }
       render() {
 
@@ -127,7 +122,7 @@ class App extends React.Component {
                                     </div>
                               </div>
                               <button id="after" ref="afterbutton" onClick={() => this.plusDivs(1)}>&#10095;</button>
-                              <Pane id="data" ref="pk" test = {this.test} selectedID={this.state.selectedID} handleToUpdate = {this.state.handleToUpdate}>
+                              <Pane id="data" ref="pk" test={this.test} selectedID={this.state.selectedID} handleToUpdate={this.state.handleToUpdate}>
                                     <div id="Div_Tab1" ref="Div_Tab1" >
                                           <div>Dolly</div>
                                           <div>Home</div>
@@ -373,16 +368,21 @@ class App extends React.Component {
 
 class Pane extends React.Component {
 
-       constructor(props) {
+      constructor(props) {
             super(props);
 
-          
+            this.test = this.test.bind(this);
 
-       }
+      }
 
-       componentWillReceiveProps(newProps){
+      test()
+      {
+            console.log(Hi);
+      }
+
+      componentWillReceiveProps(newProps) {
             console.log('test');
-       }
+      }
 
       labels(child, index) {
 
@@ -393,17 +393,59 @@ class Pane extends React.Component {
             if (this.props.selectedID == c) {
                   var show = child.props.id;
                   // ReactDOM.findDOMNode(child.ref).style.display = 'block';    
-                  this.props.test(show);
-                //  this.props.handleToUpdate = show;
+                  // this.props.test(show);
+                  // this.props.handleToUpdate = show;
+                  this.props.children.map(function (data, index) {
+                        console.log(data);
+                        if (data.ref == show) {
+                              data.ref.style.display = 'block';
+                        }
+                        else {
+                              data.ref.style.display = 'none';
+                        }
+                  })
             }
       }
 
 
       render() {
-            var handleToUpdate  =   this.props.handleToUpdate;
+            // var handleToUpdate = this.props.handleToUpdate;
+            // var _makeBlue = function (element) {
+            //        var splitName = child.props.id.split("_");
+            //        var surname = splitName[splitName.length - 1];
+            //        var c = surname;
+            //       if (this.props.selectedID == c) {
+            //       return React.addons.cloneWithProps(element, { style: { display: 'block' } });
+            // }
+            // else{
+            //       return null;
+            // }
+            
+            // };
+            var children = React.Children.map(this.props.children, function (child,i) {
+                   var splitName = child.props.id.split("_");
+                   var surname = splitName[splitName.length - 1];
+                   var c = surname;
+                  //  React.children.map(this.props.children,function(child,i)
+                  //  {
+
+                  //  });
+                   child.props.children.map(function(data,index)
+                   {
+                        console.log(data.props.children);
+                   })
+                  if (this.props.selectedID == c) {
+                  return React.cloneElement(child, { style: { display: 'block' } });
+            }
+            else{
+                   return React.cloneElement(child, { style: { display: 'none' } });
+            }
+            
+            }, this)
             return (
                   <div>
-                        {this.props.children.map(this.labels.bind(this))}
+                        {/*{this.props.children.map(this.labels.bind(this))}*/}
+                        {children}
                   </div>
             );
       }
