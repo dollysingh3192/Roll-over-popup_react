@@ -372,11 +372,10 @@ class Pane extends React.Component {
             super(props);
 
             this.test = this.test.bind(this);
-
+            this.rollover = this.rollover.bind(this);
       }
 
-      test()
-      {
+      test() {
             console.log(Hi);
       }
 
@@ -407,6 +406,10 @@ class Pane extends React.Component {
             }
       }
 
+      rollover(e)
+      {
+            console.log(e.currentTarget)
+      }
 
       render() {
             // var handleToUpdate = this.props.handleToUpdate;
@@ -420,27 +423,43 @@ class Pane extends React.Component {
             // else{
             //       return null;
             // }
-            
-            // };
-            var children = React.Children.map(this.props.children, function (child,i) {
-                   var splitName = child.props.id.split("_");
-                   var surname = splitName[splitName.length - 1];
-                   var c = surname;
-                  //  React.children.map(this.props.children,function(child,i)
-                  //  {
 
-                  //  });
-                   child.props.children.map(function(data,index)
-                   {
+            // };
+            var children = React.Children.map(this.props.children, function (child, i) {
+
+                  var splitName = child.props.id.split("_");
+                  var surname = splitName[splitName.length - 1];
+                  var c = surname;
+
+                  // if (this.props.selectedID == c) {
+                  // React.children.map(this.props.children, function (child, i) {
+                  //       return React.cloneElement(child, { onMouseOver: this.rollover.bind(this) });
+                  // },this);
+                  // }
+                  // else
+                  // {
+                  //       return null;
+                  // }
+
+                  // var childrenWithProps = React.Children.map(this.props.children, function(child) {
+                   
+                  // });  
+
+
+                  child.props.children.map(function (data, index) {
                         console.log(data.props.children);
-                   })
+                  })
+
                   if (this.props.selectedID == c) {
-                  return React.cloneElement(child, { style: { display: 'block' } });
-            }
-            else{
-                   return React.cloneElement(child, { style: { display: 'none' } });
-            }
-            
+                        React.children.map(child.props.children, function (childe, i) {
+                        return React.cloneElement(childe, { onMouseOver: this.rollover.bind(this) });
+                        },this);
+                        return React.cloneElement(child, { style: { display: 'block' } });
+                  }
+                  else {
+                        return React.cloneElement(child, { style: { display: 'none' } });
+                  }
+
             }, this)
             return (
                   <div>
