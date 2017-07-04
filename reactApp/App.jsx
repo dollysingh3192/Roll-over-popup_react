@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-
+import axios from 'axios';
 
 // var test = 0;
 class App extends React.Component {
@@ -10,7 +10,8 @@ class App extends React.Component {
             this.state = {
                   slideIndex: 0,
                   selectedID: null,
-                  handleToUpdate: null
+                  handleToUpdate: null,
+                  jobs:[]
             };
 
             this.plusDivs = this.plusDivs.bind(this);
@@ -21,6 +22,29 @@ class App extends React.Component {
       // componentDidUpdate(prevState) {
       //    var tomovedivwidth = ReactDOM.findDOMNode(this.refs.mySlides.offsetWidth);
       // }
+
+      componentWillMount()
+      {
+            // Is there a React-y way to avoid rebinding `this`? fat arrow?
+            console.log("Doly");
+            var th = this;
+            this.serverRequest = 
+                  axios.get(this.props.source)
+                  .then(function(result) {   
+                        console.log(result); 
+                  th.setState({
+                        jobs: result.data.jobs
+                  });
+            })
+            .catch(function (error) {
+             console.log(error);
+            });
+      }
+
+      componentWillUnmount()
+      {
+            this.serverRequest.abort();
+      }
 
       handleClick(e) {
             //   console.log(e.currentTarget);
@@ -123,7 +147,13 @@ class App extends React.Component {
                               </div>
                               <button id="after" ref="afterbutton" onClick={() => this.plusDivs(1)}>&#10095;</button>
                               <Pane id="data" ref="pk" test={this.test} selectedID={this.state.selectedID} handleToUpdate={this.state.handleToUpdate}>
-                                    <div id="Div_Tab1" ref="Div_Tab1" >
+                                    {this.state.jobs.map(
+                                          function(child,i)
+                                          {
+                                                return (<div>child</div>)
+                                          }
+                                    )}
+                                    {/*<div id="Div_Tab1" ref="Div_Tab1" >
                                           <div>Dolly</div>
                                           <div>Home</div>
                                           <div>Cat</div>
@@ -357,7 +387,7 @@ class App extends React.Component {
                                           <div>Mobile</div>
                                           <div>Cat</div>
                                           <div>Ant</div>
-                                    </div>
+                                    </div>*/}
                               </Pane>
                               <div id="popup"></div>
                         </div>
@@ -382,6 +412,22 @@ class Pane extends React.Component {
       componentWillReceiveProps(newProps) {
             console.log('test');
       }
+
+      // componentDidUpdate()
+      // {
+      //    console.log(this);
+      //    var that = this;
+      //    this.props.children.map(function (data, index) {
+      //             var splitName = data.ref.split("_");
+      //             var surname = splitName[splitName.length - 1];
+      //             var c = surname;
+      //                   if(c =  that.props.selectedID )
+      //                   {
+      //                        that.rollover.bind(this);
+      //                   }
+      //                   console.log(data.props.children);
+      //             })
+      // } 
 
       labels(child, index) {
 
@@ -446,14 +492,12 @@ class Pane extends React.Component {
                   // });  
 
 
-                  child.props.children.map(function (data, index) {
-                        console.log(data.props.children);
-                  })
+                  // child.props.children.map(function (data, index) {
+                  //       console.log(data.props.children);
+                  // })
 
                   if (this.props.selectedID == c) {
-                        React.children.map(child.props.children, function (childe, i) {
-                        return React.cloneElement(childe, { onMouseOver: this.rollover.bind(this) });
-                        },this);
+                       
                         return React.cloneElement(child, { style: { display: 'block' } });
                   }
                   else {

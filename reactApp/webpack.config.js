@@ -12,7 +12,7 @@ var config = {
 
     devServer: {
         inline: true,
-        port: 8030
+        port: 8010
     },
 
     module: {
